@@ -1,0 +1,11 @@
+public class DepositTransaction extends BaseTransaction {
+    public DepositTransaction(double amount) {
+        super(amount);
+    }
+
+    @Override
+    public void apply(BankAccount ba) {
+        ba.deposit(getAmount());
+        System.out.println("Deposited: " + getAmount() + " to account: " + ba.getAccountNumber());
+    }
+}
