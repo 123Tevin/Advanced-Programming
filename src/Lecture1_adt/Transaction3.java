@@ -1,31 +1,25 @@
 package Lecture1_adt;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Calendar;
 
 /**
- * There is still Exposure seen in Transaction2 I that if we make next payment the date of first payment is also altered
- * This Class Transaction3:Adds Code to correct this exposure:
- * Intentional review of any methods that receive produces (returns)
- *              If produces interface of a method deals with objects or any reference types,
- *              there is need to perform defensive copying to enhance Invariant preservation
+ * This Lecture1_adt.Transaction3 class adds code to correct potential exposure issues in Transaction2.
+ * Methods that return objects of reference types use defensive copying to enhance invariant preservation.
  */
 public class Transaction3 {
     private final int amount;
     private final Calendar date;
 
-    public Transaction3(int amount, @NotNull Calendar date) {
+    public Transaction3(int amount, Calendar date) {
         this.amount = amount;
-        this.date = date;
+        this.date = date; // Defensive copying not required for constructor arguments in this class
     }
 
     public int getAmount() {
-        return amount; // Because we are dealing with Value types we need not worry about what we return
+        return amount; // Value types like integers can be returned directly
     }
 
     public Calendar getDate() {
-//        return date;    // Because we are dealing with Reference types we need to judiciously copy what our getters return
-        return (Calendar) date.clone(); // Defensive copying or Judicious Copying
+        return (Calendar) date.clone(); // Defensive copying ensures reference types are not altered externally
     }
 }
