@@ -1,30 +1,27 @@
 package Lecture4_interfaces_abstract_classes;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Calendar;
 
-public class DepositTrasaction extends BaseTransaction {
-    public DepositTrasaction(int amount, @NotNull Calendar date){
-        super(amount, date);
-    }
-    private boolean checkDepositAmount(int amt){
-        if (amt < 0){
-           return false;
-        }
-        else{
-            return  true;
-        }
+public class DepositTransaction extends BaseTransaction {
+    public DepositTransaction(double amount, Calendar date, String transactionID) {
+        super(amount, date, transactionID);
     }
 
-    // Method to print a transaction receipt or details
-    public void printTransactionDetails(){
-        System.out.println("Deposit Trasaction: "+this.toString());
+    @Override
+    public void apply(BankAccount ba) {
+        ba.deposit(getAmount());
+        System.out.println("Deposited: " + getAmount());
     }
 
-    public void apply(BankAccount ba){
-        double curr_balance = ba.getBalance();
-        double new_balance = curr_balance + getAmount();
-        ba.setBalance(new_balance);
+    @Override
+    public boolean reverse(BankAccount ba) {
+        if (ba.getBalance() >= getAmount()) {
+            ba.withdraw(getAmount());
+            System.out.println("Deposit reversed: " + getAmount());
+            return true;
+        } else {
+            System.out.println("Unable to reverse deposit: insufficient balance.");
+            return false;
+        }
     }
 }
